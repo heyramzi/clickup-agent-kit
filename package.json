@@ -1,0 +1,22 @@
+{
+  "name": "@heyramzi/clickup-cli",
+  "version": "2.10.0",
+  "description": "ClickUp CLI, manage workspaces, tasks, and more from the terminal.",
+  "license": "UNLICENSED",
+  "homepage": "https://upsys-consulting.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyramzi/clickup-agent-kit.git"
+  },
+  "bin": {
+    "cu": "./dist/clickup.js"
+  },
+  "files": [
+    "dist/clickup.js",
+    "skills",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}
