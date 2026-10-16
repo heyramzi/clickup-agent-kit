@@ -161,11 +161,11 @@ Guessing one wastes turns, because a wrong code renders a skeleton plus a
 
 | View type | Code | Example |
 |---|---|---|
-| table / grid | `gr` | `app.clickup.com/<team>/v/gr/8cbypq9-103975` |
+| table / grid | `gr` | `app.clickup.com/<team>/v/gr/<viewId>` |
 | list | `li` | |
 | board | `b` | |
 | workload | `wl` | |
-| space overview | `o/s` | `.../v/o/s/90154546093` |
+| space overview | `o/s` | `.../v/o/s/<spaceId>` |
 | folder overview | `o/f` | |
 
 Get the ids from `cu views list --space <id>` (also `--folder`, `--list`) rather than reading them

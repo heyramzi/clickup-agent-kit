@@ -1,0 +1,103 @@
+name: release
+
+# The maintainer's publish script pushes a version, then creates the GitHub
+# release for it. This run checks that the release matches what's in the tree
+# and attaches an installable tarball. A red run means the release is wrong:
+# don't point anyone at it until it's fixed or deleted.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to check (for example v2.10.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+# Two runs on one tag would upload the same asset twice. Nothing here is worth
+# cancelling half way, so the second run waits.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.release.tag_name || inputs.tag }}
+  cancel-in-progress: false
+
+env:
+  TAG: ${{ github.event.release.tag_name || inputs.tag }}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 24]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      - name: The tag, package.json and the binary agree
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "v$VERSION" != "$TAG" ]; then
+            echo "::error::The tag is $TAG but package.json says $VERSION."
+            exit 1
+          fi
+          BINARY=$(node dist/clickup.js --version)
+          if [ "$BINARY" != "$VERSION" ]; then
+            echo "::error::cu --version prints $BINARY but package.json says $VERSION."
+            exit 1
+          fi
+          grep -q "^## $VERSION " CHANGELOG.md || {
+            echo "::error::CHANGELOG.md has no entry for $VERSION."
+            exit 1
+          }
+      - name: Nothing runs on install
+        run: |
+          node -e '
+            const pkg = require("./package.json");
+            const hooks = ["preinstall", "install", "postinstall", "prepare", "prepack", "postpack"];
+            const found = hooks.filter((h) => pkg.scripts && h in pkg.scripts);
+            if (found.length) { console.error("::error::Install hooks found: " + found); process.exit(1); }
+            if (pkg.dependencies && Object.keys(pkg.dependencies).length) {
+              console.error("::error::The bundle should carry no runtime dependencies."); process.exit(1);
+            }
+          '
+      - name: The bundle carries no token or local path
+        run: |
+          if grep -E -o -e 'pk_[0-9]+_[A-Z0-9]{10,}' -e '/Users/[A-Za-z]+/' dist/clickup.js; then
+            echo "::error::The bundle carries a token or a local path."
+            exit 1
+          fi
+      - name: It installs and runs
+        run: |
+          npm pack --silent
+          npm install --global --prefix "$RUNNER_TEMP/cu" ./*.tgz
+          "$RUNNER_TEMP/cu/bin/cu" --version
+          "$RUNNER_TEMP/cu/bin/cu" --help > /dev/null
+
+  assets:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Pack the tarball and its checksum
+        run: |
+          npm pack --silent
+          sha256sum ./*.tgz > SHA256SUMS
+          cat SHA256SUMS
+      - name: Attach them to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" ./*.tgz SHA256SUMS --clobber

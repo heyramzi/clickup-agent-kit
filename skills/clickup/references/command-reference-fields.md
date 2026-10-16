@@ -16,7 +16,7 @@ cu view update <viewId> --columns-json '{"fields":[{"field":"assignee","hidden":
 cu view delete <viewId> [--yes]
 ```
 
-System views (IDs like `4-SPACEID-28`) cannot be deleted. Only user-created views (IDs `8cbypq9-*`).
+System views (IDs like `4-SPACEID-28`) cannot be deleted. Only user-created views (IDs `<workspaceCode>-*`).
 
 **A ClickApp that is off eats the value in silence.** `POST /task` accepts
 `priority` on a space where the Priorities ClickApp is disabled, stores it, and

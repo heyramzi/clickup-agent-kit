@@ -87,7 +87,7 @@ DELETE /view/{viewId}
 
 **View types**: `list`, `board`, `calendar`, `gantt`, `table`, `timeline`, `workload`, `activity`, `map`, `conversation`, `doc`, `embed`, `form`
 
-**Deletable views**: only user-created views (IDs like `8cbypq9-XXXXX`). System views (`4-SPACEID-28`, `5-FOLDERID-28`, `6-LISTID-8`) return errors on DELETE — skip them.
+**Deletable views**: only user-created views (IDs like `<workspaceCode>-XXXXX`). System views (`4-SPACEID-28`, `5-FOLDERID-28`, `6-LISTID-8`) return errors on DELETE — skip them.
 
 ### Columns update format
 

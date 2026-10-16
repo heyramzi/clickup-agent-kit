@@ -14,10 +14,10 @@ The board skill's verbs walk a task through its lifecycle: **move** (status only
 ## Shared setup
 
 - The `cu` CLI (alias `clickup`) must be authenticated: run `cu status` first. Token comes from `~/.config/clickup/config.json` or `CU_API_TOKEN`/`CU_TEAM_ID`. Missing or unauthenticated → stop, tell the user to run `cu init`, never guess a token.
-- Read `.tasks/config.json` at the repo root for `list_id`, `status_map`, and the `github` owner/repo. It's the same file every skill and agent in this kit reads; its full shape is in the `clickup` skill's `~/Studio/clickup-utils/skills/clickup/clickup/references/tasks-config.md`. Map a friendly alias (`todo`, `ready`, `in-progress`, `in-review`, `done`) through `status_map`, which is list-specific and authoritative:
+- Read `.tasks/config.json` at the repo root for `list_id`, `status_map`, and the `github` owner/repo. It's the same file every skill and agent in this kit reads; its full shape is in the `clickup` skill's `references/tasks-config.md`. Map a friendly alias (`todo`, `ready`, `in-progress`, `in-review`, `done`) through `status_map`, which is list-specific and authoritative:
 
   ```jsonc
-  // .tasks/config.json (example: Client Glance)
+  // .tasks/config.json (example)
   "status_map": { "todo": "Open", "ready": "ready", "in-progress": "in progress", "in-review": "review", "done": "Closed" }
   ```
 

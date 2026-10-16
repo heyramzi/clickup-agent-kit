@@ -87,6 +87,17 @@ Run `cu --help`, then `cu hierarchy`, and tell me the one structural
 problem you can see. Only read commands. Ask me before any write.
 ```
 
+## Versions
+
+Each release is on the [releases page](https://github.com/heyramzi/clickup-agent-kit/releases),
+with a [changelog](CHANGELOG.md). To stay on one version, install its tag:
+
+```
+npm i -g heyramzi/clickup-agent-kit#v2.10.0
+```
+
+[RELEASING.md](RELEASING.md) says how a release is made and what it checks.
+
 ## Requirements
 
 Node 20 or newer.

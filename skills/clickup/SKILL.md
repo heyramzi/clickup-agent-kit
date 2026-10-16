@@ -120,7 +120,7 @@ Request patterns, the hierarchy/task/view CRUD endpoint map, and the columns-upd
 [`references/api-reference.md`](references/api-reference.md). Demo workspace list ids:
 [`references/demo-workspace.md`](references/demo-workspace.md).
 
-**Deletable views**: only user-created (`8cbypq9-XXXXX`-style) ids; system views
+**Deletable views**: only user-created (`<workspaceCode>-XXXXX`-style) ids; system views
 (`4-SPACEID-28`, `5-FOLDERID-28`, `6-LISTID-8`) error on DELETE: skip them.
 
 **List description pin**: `PUT /list/{id}` needs `markdown_content`, not `content` (both read

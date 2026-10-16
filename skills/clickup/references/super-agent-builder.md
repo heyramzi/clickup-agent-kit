@@ -17,7 +17,7 @@ wrong, and the form path below is what works.
 **An agent id you find in a network call is probably not the one you just made.**
 An open agent page polls `.../agents/<id>/summary` for whatever agent it is
 showing, and a workspace usually holds several. Read the `name` back before
-acting on the id: in one workspace `8cbypq9-109195` looked like a fresh draft
+acting on the id: in one workspace `<id>` looked like a fresh draft
 and was a long-standing **Client Profitability** agent. Confirm against
 **AI → All Agents**, the only place the full list lives; `/ai/agents` is the
 create screen, not the list.
