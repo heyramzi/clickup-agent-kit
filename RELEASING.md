@@ -7,13 +7,13 @@ issue instead, and say what you ran and what you expected.
 
 ## Versions
 
-`cu` follows [semver](https://semver.org). The number in `package.json`, the tag
-(`v2.10.0`), `cu --version` and the heading in [CHANGELOG.md](CHANGELOG.md) are
-always the same number.
+The number in `package.json`, the tag (`v1.12.0`), `cu --version` and the heading in
+[CHANGELOG.md](CHANGELOG.md) are always the same number.
 
 - Patch: a fix, nothing you have to change.
-- Minor: a new command or flag, nothing removed.
-- Major: a command or flag changed in a way that breaks a script you wrote.
+- Minor: a new command or flag. It can also change or remove one, so read the changelog
+  before you update a script.
+- Major: only when the maintainer asks for it.
 
 ## Pin a version
 
@@ -21,7 +21,7 @@ always the same number.
 one release, name its tag:
 
 ```
-npm i -g heyramzi/clickup-agent-kit#v2.10.0
+npm i -g heyramzi/clickup-agent-kit#v1.13.0
 ```
 
 Each release also carries an installable `.tgz` and a `SHA256SUMS` file.

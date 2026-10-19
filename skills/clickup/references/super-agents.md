@@ -1,103 +1,98 @@
 # Super Agents and their MCP servers
 
-Connecting a server and building an agent are the longest click paths in this skill and the ones most likely to move under a redesign. Read them here rather than from memory.
+The longest click paths in this skill, and the likeliest to move under a redesign. Verify against
+the screen. `cu agents` and `cu agents get <id>` (the whole `agent_config`) read agents over the
+frontdoor; an agent's id is a view id (`kg1h7-53895`) and its page is `/<teamId>/ai/agents/<agentViewId>`.
 
-## What actually constrains an agent
+## Constraints
 
-Four panels, only two of them limit anything. **Instructions** are the real
-scope. **Skills** (tools) are the real permission boundary: a tool it lacks it
-cannot do, a tool it has it will eventually reach for. **Knowledge** barely
-narrows anything (below). **Triggers** decide only when it runs.
+- Instructions are the real scope and Skills (tools) are the real permission boundary: a tool it
+  lacks it can't use, and a tool it has it will eventually use. Knowledge barely narrows
+  anything: Workspace Access is forced on ("Public Workspace knowledge is required for Agents", 21 Aug
+  2026), and Add from ClickUp adds emphasis. It doesn't build a wall. The only guard against answering about the
+  wrong client is a sentence in Instructions naming the space it owns. Triggers only set when it runs.
+- Give the smallest tool set that answers its question: read-only on systems of record, write only on
+  the object it was handed. Money, agreements and rate cards get read tools and nothing else. With 20
+  tools, the agent picks wrong and you can't debug it.
+- Put anything long, per-client or changing in a Doc (Knowledge > Add from ClickUp > Docs) and tell the
+  instructions to treat it as the source of truth.
+- Give ambiguity somewhere to go: a verdict field needs a third value (Unclear) and an instruction not
+  to fold it into the decisive one. An explicit excludes list on a signed-deliverables source fixed
+  wrong verdicts that harder prompting never did.
+- Add "never state a number you didn't read from a tool". An example in the instructions becomes a
+  fact in the answer: one agent told to cite "Source: Client Memory X, dated 14 Aug 2026" stamped that
+  date on sections with none. Write the shape with placeholders and add "a date only when that exact
+  line carries one".
+- The agent's one-line description shows in the agents list, so a demo agent's description follows the
+  invented-data rule too. 2 agents sharing a first word make the `@` picker a coin toss: make the
+  first word unique.
 
-**Knowledge cannot really be narrowed.** Workspace Access is forced on: turning
-it off answers *Public Workspace knowledge is required for Agents* (verified 21
-Aug 2026). **Add from ClickUp** adds emphasis to a space or doc, never a hard
-boundary — an agent can always read the whole workspace, so the only real guard
-against answering about the wrong client is a sentence in Instructions naming
-the space it owns and telling it to ignore the rest.
+## Connect an MCP server
 
-**Give it the smallest tool set that answers its question.** Read-only on
-systems of record, write only on the object it was handed. Money, agreements
-and rate cards get read tools and nothing else; an agent that produces work may
-comment on and move the task it was assigned, nothing more. Reading is
-reversible, writing is not. One agent, one question: twenty tools means it
-picks the wrong one more often, and a misfire can't be debugged because you
-can't tell which half went wrong.
+There's no API. It's all App Center (release 4.07, 18 Aug 2026). From `/<teamId>/settings/apps`, click
+App Center: the row highlights on the first click, the modal opens on the second and fades in over
+about 4 seconds, so a click during the fade dismisses it. Wait, then screenshot, then click. Under AI pick
+MCP Servers:
 
-**Anything long, per-client, or likely to change belongs in a Doc, not
-Instructions.** Add it under Knowledge → Add from ClickUp → Docs, and tell the
-instructions to name the doc and treat it as the source of truth. Instructions
-stay the method; the doc is the facts, edited without touching the agent.
+- The catalogue (18 apps on 21 Aug 2026, each an OAuth into that account, so connecting one puts whatever
+  it holds in front of the agent: never on a live account for a recording).
+- Add Custom MCP Server, any URL: permissions (For all members or Just for me), then Name,
+  URL, Description, Authentication (OAuth, Authorization header as `Bearer <token>`, or none).
+  ClickUp then calls `tools/list` itself, and the discovered tools prove the connection.
+- Pick the scope first. A personal connection has no credentials when its owner isn't logged in. A
+  scheduled agent then doesn't error. It silently reports only what it reached. Anything scheduled needs the
+  workspace connection.
+- The rail shows a Custom MCP category only where a custom server is connected, the fastest proof of
+  which workspace you're in. ClickUp's own card reading "Couldn't load tools" is an empty state and no fault.
 
-**Give ambiguity somewhere to go.** A verdict field needs a third value
-(Unclear, Not in our records yet) and a ban on folding it into the decisive
-one, or the agent picks whichever answer makes the story bigger. A soft
-judgement usually means an underspecified source: an explicit **excludes** list
-on a source of signed deliverables fixed wrong verdicts that harder
-re-prompting never did.
+Giving a connected server's tools to an agent is another screen. In the agent's Skills panel, Add
+tools: the top-right Custom MCP Server button restarts the connect flow and would stand up a second
+copy, so cancel it. The connected servers sit lower under Custom MCP Servers: click one, then Add
+all or pick tools. The modal paints 4 to 6 seconds late, so click once, wait, screenshot. Search
+returns tool groups ("status" gives Tasks and subtasks, 8 tools), not tools; a custom server's own
+tools match by name. A Finish Setup banner saying Unavailable appears on some loads while the tools
+work: ask the agent a question instead.
 
-**Ban the unsourced number.** Never state a number not read from a tool; if a
-tool returns nothing, say so instead of estimating.
+## Build one from scratch
 
-**Its description is on screen even when the shot never opens the agent.** The
-one-line description shows in the agents list itself, so a demo agent's
-description follows the same invented-data rule as everything else on camera.
+Verified 21 Aug 2026. Don't brief the builder chat to create one: a 2.3k brief answered "Whoops!
+Looks like we stumbled upon a hiccup in the matrix" and a 700-character one cleared the box and created
+nothing, with no error. Use Start from scratch (top right). It opens the form on the right and the
+builder chat on the left. Fields need different click modes:
 
-## Connect an MCP server, and give its tools to a Super Agent
+- Name: one click, `cmd+a`, type, `Tab`. The browser tab title changing is the proof.
+- Description: 2 clicks (the first only highlights the row and `cmd+a` then selects the page).
+  It's a real `input[placeholder="Add description..."]`, so `fill()` works.
+- Instructions: the second `contenteditable` on the page (the first is the builder chat). Type,
+  don't paste: 2 pastes put in the wrong content or none. Type paragraph by paragraph with `Return`
+  between them, avoid line-leading `1.` or `-` (becomes a list) and `/` or `@` (opens pickers). To
+  append to existing instructions, open the field full screen (the arrows icon), `cmd+Down`, press
+  `Return` twice to leave a bullet, type the new sections, close with X, then click Save changes.
+- Saving is a banner: a Save changes bar appears and pushes everything below it down about 65px,
+  so re-screenshot before every click. The toast is Agent saved successfully.
+- A new agent can't create a task. It has one skill, ClickUp Default tools (14), and that has no Create
+  task. An agent told to open a task will still say it did. Add tools > Popular tools > Create
+  task, close, Save.
+- Knowledge: narrow with Add from ClickUp when a workspace holds more than one client. Triggers
+  default to Mention, Direct Message and Assign task, all on; Scheduled is added separately.
 
-Shipped in release 4.07 on 18 Aug 2026. There is no API for it; the whole surface
-is App Center.
+`Activate Super Agent` turns `Run` on; Send DM is the fastest full test and its reply is in a
+thread. An agent creating something takes 50 to 60 seconds, and the card paints before the sentence.
+A mention on a task is the cheapest run: type `@` plus the first word of the name, `Enter`, the
+sentence, `cmd+Enter`. The answer arrives about 90 seconds later as a threaded reply
+(`GET /api/v2/comment/<commentId>/reply`) and never as a comment. Then verify from the CLI:
+`CU_TEAM_ID=<teamId> cu tasks --list <listId>` is the proof, and `cu task delete` cleans up before a demo.
 
-From `/<teamId>/settings/apps`, click **App Center**. The row highlights on the
-first click and the modal opens on the second; it fades in over about four
-seconds, so a click aimed at it during the fade lands on the page behind and
-dismisses it. Wait, screenshot, then click.
+An agent id seen in a network call is probably a different agent from the one you made: an open agent page polls
+`.../agents/<id>/summary` for the agent it shows. Read `name` back, and use AI > All Agents, the
+only full list (`/ai/agents` is the create screen).
 
-In the modal's left rail, under **AI**, pick **MCP Servers**. Two doors:
+## The Builder edits the prompt, never Knowledge
 
-- **The catalogue**, eighteen apps on 20 and 21 Aug 2026 (Amplitude, Atlassian,
-  Canny, Canva, Clay, Dropbox, GitHub, Hex, HubSpot, Intercom, Linear, Mixpanel,
-  Notion, Sentry, Slack, Stripe, Supabase, ZoomInfo). Each is OAuth into that
-  account, so connecting one puts whatever it holds in front of the agent. Never
-  complete one on a live account for a recording.
-- **Add Custom MCP Server**, which takes any URL.
-
-**Which workspace am I in?** The rail carries a **Custom MCP** category only
-where a custom server is connected, so that entry is the fastest proof. The
-catalogue also holds ClickUp's own card, **MCP Servers**: its Personal tab with
-nothing connected reads "Couldn't load tools", the empty state, not a fault.
-
-The custom path: permissions (**For all members** or **Just for me**) →
-**Next** → Name, URL, Description, Authentication Method → **Next**. Auth offers
-OAuth, **Authorization header** (a static token, pasted as `Bearer <token>`), or
-**No Authentication**; the last two also take Custom Headers. On success ClickUp
-calls the server's `tools/list` itself and shows the discovered tools — the proof
-the connection works. ClickUp's help page calls the middle option "API key"; the
-live UI says **Authorization header** (re-read 21 Aug 2026). Trust the UI.
-
-**Pick the permission scope first, not last.** A personal connection has no
-credentials when the person is not logged in, so a scheduled agent using one does
-not error, it silently reports only what it could reach. Anything on a schedule
-needs the workspace connection.
-
-**Giving an already-connected server's tools to an agent is a different screen,
-and it has a trap.** In the agent's Skills panel, **Add tools** opens a modal whose
-top right carries **Custom MCP Server**. That button is not a picker: it restarts
-the connect-a-new-server flow, and finishing it would stand up a second copy of a
-server already connected. Cancel out of it. The connected servers sit further down
-the same modal, under a **Custom MCP Servers** heading below the catalogue apps:
-scroll to it, click the server, then **Add all** or pick tools one by one.
-
-**That modal paints late** — a click registers and the result appears four to
-six seconds later, so a second click aimed at the same place lands on whatever
-has since moved under the cursor. Click once, wait, screenshot.
-
-**Searching it returns tool groups, not tools.** Typing `status` returns one row,
-**Tasks and subtasks** (8 tools), and adding that group is how an agent gets the
-ability to change a status. Individual tool names mostly do not match; search by
-the thing you want done. A custom server's own tools do match by name. Give
-tools through this form, not through the builder chat.
-
-A **Finish Setup** banner naming the server in Skills as **Unavailable** paints
-on some loads and clears on others while the tools still work. It settles
-nothing either way: ask the agent the question and read the answer.
+The Edit tab's "Super Agent Builder" rewrites instructions in natural language, and told on 24 Aug 2026
+to add a second space it said: "I can't directly edit the Knowledge section (workspaceKnowledge)". That
+is set by hand in the profile. Try the prompt first: an agent scoped to one space refused a question
+about a company in another, and after the builder put the Companies list into its read order the same
+question came back answered and sourced. Knowledge is access control; the reading order is usually the
+real fault. The builder asks a clarifying question before writing, so a screenshot 20 seconds after
+the instruction shows only the question.
