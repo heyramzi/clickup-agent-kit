@@ -31,6 +31,7 @@ Planning the week in batches with points, and turning a call into tasks, come wi
 | Statuses, templates, automations, `cu net capture` | [`frontdoor.md`](references/frontdoor.md) |
 | Docs, doc renames, call transcripts, bulk REST scripts | [`bulk-and-docs.md`](references/bulk-and-docs.md) |
 | Super Agents, MCP servers | [`super-agents.md`](references/super-agents.md) |
+| Brain² artifacts: build, revise, save the HTML | [`artifacts.md`](references/artifacts.md) |
 | A click path, a screenshot, the Workload view | [`browser.md`](references/browser.md) |
 
 Read the file before a write you haven't made once, because each entry in them cost a run. Config values

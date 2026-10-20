@@ -3,7 +3,7 @@
 Hand your ClickUp workspace to an AI agent. It reads every space, list and task,
 tells you what's broken, and fixes it when you say so.
 
-`cu` is the command your agent runs. It has 215 of them in a single file with no
+`cu` is the command your agent runs. It has 222 of them in a single file with no
 runtime dependencies. The skills in this repo teach your agent how to drive it.
 
 The kit is free. It sits next to the [ClickUp Foundations](https://go.upsys-consulting.com/skool)
@@ -37,7 +37,25 @@ cu tasks query --space <spaceId> --tag urgent --assignee <userId>
 cu docs search --parent <spaceId> --parent-type SPACE
 ```
 
-`cu --help` prints all 215.
+`cu --help` prints all 222.
+
+## Build Brain² artifacts from your terminal
+
+ClickUp Brain² can turn a prompt into an artifact: a dashboard, calculator or small app that
+lives in your workspace. There's no public API for it, so `cu` drives the same calls the web
+app makes, using your browser session instead of a token.
+
+```
+cu net capture https://app.clickup.com/<workspaceId>/ai     sign in once, about 48 hours
+cu artifacts create --file prompt.md --save ./artifacts/    build one and keep its HTML
+cu artifacts revise <thread> --prompt "Add a reset button"  ask Brain to change it
+cu artifacts                                                every artifact you've made
+cu artifacts get <id> --save ./artifacts/                   save a copy of any version
+```
+
+A build takes Brain 2 to 3 minutes, and `create` waits for it. `--save` writes the page as one
+HTML file you can open offline, which is handy where exporting is switched off. Brain reads the
+workspace the session belongs to, so it can build from your real tasks.
 
 ## Skills for your AI agent
 
@@ -92,7 +110,7 @@ Each release is on the [releases page](https://github.com/heyramzi/clickup-agent
 with a [changelog](CHANGELOG.md). To stay on one version, install its tag:
 
 ```
-npm i -g heyramzi/clickup-agent-kit#v1.13.0
+npm i -g heyramzi/clickup-agent-kit#v1.14.0
 ```
 
 [RELEASING.md](RELEASING.md) says how a release is made and what it checks.

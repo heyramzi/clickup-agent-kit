@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.14.0 (2026-10-20)
+
+### Features
+
+* **cli:** cu artifacts and cu statuses on the web session
+
+## 1.13.1 (2026-10-19)
+
+### Bug Fixes
+
+* **cli:** build the bundle without the vibe-kit sibling checkout
+* **cli:** the public changelog starts at 1.10.0, the renumbered 2.8.0
+
 ## 1.13.0 (2026-10-19)
 
 ### Features
