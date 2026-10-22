@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.14.1 (2026-10-22)
+
+### Bug Fixes
+
+* **deps:** build the CLI on clickup-utils 1.23.0 and the upgraded dependencies
+
 ## 1.14.0 (2026-10-20)
 
 ### Features

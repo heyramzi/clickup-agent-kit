@@ -21,7 +21,7 @@ The number in `package.json`, the tag (`v1.12.0`), `cu --version` and the headin
 one release, name its tag:
 
 ```
-npm i -g heyramzi/clickup-agent-kit#v1.14.0
+npm i -g heyramzi/clickup-agent-kit#v1.14.1
 ```
 
 Each release also carries an installable `.tgz` and a `SHA256SUMS` file.

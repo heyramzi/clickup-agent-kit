@@ -110,7 +110,7 @@ Each release is on the [releases page](https://github.com/heyramzi/clickup-agent
 with a [changelog](CHANGELOG.md). To stay on one version, install its tag:
 
 ```
-npm i -g heyramzi/clickup-agent-kit#v1.14.0
+npm i -g heyramzi/clickup-agent-kit#v1.14.1
 ```
 
 [RELEASING.md](RELEASING.md) says how a release is made and what it checks.
