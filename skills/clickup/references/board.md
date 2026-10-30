@@ -20,16 +20,36 @@ id in the branch, PR and commits.
 
 ## survey
 
-Writes nothing. Run it when asked about the board, what's late or what's next.
+Writes nothing. Run it when asked about the board, what's late, what's stuck or what's next.
 
 1. `cu tasks --list <list_id> --json`, grouped by status through `status_map`.
-2. Add `cu tasks query --list <list_id> --due-before <today> --json` and every task with no owner. Past
-   its date with the status unmoved is late, whatever the comments say. Count first, then the list.
+2. Add `cu tasks stuck --list <list_id> --json`: every open task that's stale (no update in 14 days),
+   overdue or unassigned, oldest update first, with the reasons in `why`. Past its date with the
+   status unmoved is late, whatever the comments say. Count first (`totalCount`), then the list.
 3. One next action per column: spec what's Open, start what's Ready and ship what's in review. A late task gets an
    owner and a reason, or a new date.
 4. Recommend one task to do first, with a sentence of why.
 
-Done when the report has the late count, the per-column actions and the one pick.
+Done when the report has the late and stuck counts, the per-column actions and the one pick.
+
+### Finding what's stuck
+
+| The question | Command |
+| --- | --- |
+| What's stuck, what needs me | `cu tasks stuck` |
+| What's late, what's overdue | `cu tasks stuck --only overdue` |
+| What has no owner | `cu tasks stuck --only unassigned` |
+| What's gone quiet, what's stale | `cu tasks stale --days 14` |
+
+Scope each with `--list <id>`, `--space <ids>` or the workspace (`--team <id>` for another one).
+Open means the status type is neither done nor closed, so `complete` or `lost` never shows up.
+Stale reads ClickUp's `date_updated`, which any edit moves: a comment, a status change, a new
+assignee. So stale means nobody touched it, not that nobody worked on it. `--days` takes decimals
+(`0.25` is 6 hours), and the `days` column shows tenths below 1. Rows come oldest first, 50 by
+default: `totalCount` is the real number, and `--limit 0` prints them all. A workspace-wide
+`stuck` reads every open task once (about 40 seconds for 3,000), so give it a space when you know
+which. Each row is one task with every reason that holds, so a task that's late and ownerless
+shows once.
 
 ## reconcile
 

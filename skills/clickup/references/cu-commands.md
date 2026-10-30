@@ -37,6 +37,9 @@ anything here. This file covers what help can't tell you. Fields, tags and views
   `GET /team/{id}/task?page=N&subtasks=true`, and verify a write per task, because counts drift.
 - A live filter is `status.type not in (closed, done)`, and `status != closed` is wrong because `inactive`,
   `lost`, `sent` and `complete` all have type `done`.
+- `tasks stale` and `tasks stuck` find open work nobody is moving: no update in `--days` (14),
+  past due, or no owner. They already drop done and closed statuses. The table is in
+  [`board.md`](board.md#finding-whats-stuck).
 - `tasks query` takes `--due-before`, `--fields-json '[{"field_id":"...","operator":"IS NULL"}]'`,
   `--tag`, `--type` and more. `--watcher` needs `--list`; `--parent` needs no list. A comma list
   in `--status`, `--assignee` or `--folder` matches any of them.

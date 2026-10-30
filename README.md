@@ -3,7 +3,7 @@
 Hand your ClickUp workspace to an AI agent. It reads every space, list and task,
 tells you what's broken, and fixes it when you say so.
 
-`cu` is the command your agent runs. It has 222 of them in a single file with no
+`cu` is the command your agent runs. It has 224 of them in a single file with no
 runtime dependencies. The skills in this repo teach your agent how to drive it.
 
 The kit is free. It sits next to the [ClickUp Foundations](https://go.upsys-consulting.com/skool)
@@ -21,7 +21,7 @@ cu skills install
 `cu init` asks for a ClickUp API token, which you make under your avatar, then
 **Settings**, then **Apps**. Nothing leaves your machine except calls to ClickUp.
 
-## The first three commands
+## The first 3 commands
 
 ```
 cu status                       the workspace your token actually reached
@@ -37,7 +37,16 @@ cu tasks query --space <spaceId> --tag urgent --assignee <userId>
 cu docs search --parent <spaceId> --parent-type SPACE
 ```
 
-`cu --help` prints all 222.
+Then ask what's stuck. `cu tasks stuck` prints each open task with no update in 14 days, past
+its due date or with nobody on it, oldest first, and says which of the three it is:
+
+```
+cu tasks stuck --space <spaceId>                  stale, overdue or unassigned
+cu tasks stuck --space <spaceId> --only overdue   just what's late
+cu tasks stale --days 7                           no update in a week
+```
+
+`cu --help` prints all 224.
 
 ## Build Brain² artifacts from your terminal
 
@@ -62,8 +71,8 @@ workspace the session belongs to, so it can build from your real tasks.
 The repo carries the `clickup` skill next to the binary. It works on any ClickUp board, with no special
 fields to set up.
 
-- It teaches your agent the `cu` CLI: tasks, docs, hierarchy, bulk work, and what to do in the
-  browser when ClickUp has no API for it.
+- It teaches your agent the `cu` CLI for tasks, docs, the hierarchy and bulk work, plus what to
+  do in the browser when ClickUp has no API for it.
 - It also walks a task from idea to merged PR: it writes the brief, builds it, then ships it.
 
 ```
@@ -74,7 +83,7 @@ cu skills install --global   into ~/.claude for every project
 It copies the files, so run it again after `npm i -g heyramzi/clickup-agent-kit` to update them,
 and keep your own edits in separate skills.
 
-The skill reads a small cheat sheet, `.tasks/config.json`, at the root of your project. It
+Your agent reads `.tasks/config.json` at the root of your project before it touches the board. It
 holds your list id, your real status names and your GitHub repo. Only `list_id` and `status_map`
 are needed to start, and your workspace ids stay in your own copy. Nothing here knows them.
 
@@ -106,11 +115,11 @@ problem you can see. Only read commands. Ask me before any write.
 
 ## Versions
 
-Each release is on the [releases page](https://github.com/heyramzi/clickup-agent-kit/releases),
+The [releases page](https://github.com/heyramzi/clickup-agent-kit/releases) lists the versions,
 with a [changelog](CHANGELOG.md). To stay on one version, install its tag:
 
 ```
-npm i -g heyramzi/clickup-agent-kit#v1.14.1
+npm i -g heyramzi/clickup-agent-kit#v1.15.0
 ```
 
 [RELEASING.md](RELEASING.md) says how a release is made and what it checks.

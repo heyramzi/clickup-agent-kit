@@ -49,7 +49,7 @@ undone: run `--dry-run`, show the groups, survivor and `dropped` count, and get 
   value, the kept one wins silently. A group whose whole count is `dropped` was filled in parallel,
   and merging loses a column of data.
 - The survivor is rebuilt: its id and every option id change, and a `new_drop_down` comes back in
-  the legacy shape (values read as orderindex). Extras on `type_config`, such as an AI field's prompt, are lost. Save `cu fields all --json` before merging and restore by hand.
+  the older shape (values read as orderindex). Extras on `type_config`, such as an AI field's prompt, are lost. Save `cu fields all --json` before merging and restore by hand.
 - Grep the old field id across views (`cf_<id>` columns, filters), automations
   (`cu automations --list`), integrations and dashboards before merging, then repoint.
 - The dry-run search misses archived tasks, so a merge can move a value the count never showed.

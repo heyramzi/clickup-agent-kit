@@ -1,6 +1,6 @@
 ---
 name: clickup
-description: "Runs ClickUp work: the cu CLI, bulk scripts, browser-only surfaces and the board. Use on any ClickUp task, doc or bulk update, 'what's late', or to spec, start or ship a task."
+description: "Runs ClickUp work: the cu CLI, bulk scripts, browser-only surfaces and the board. Use on any ClickUp task, doc or bulk update, 'what's late', 'what's stuck', or to spec, start or ship a task."
 tags: [drives, clickup, browser]
 lane: general
 ---
@@ -25,10 +25,11 @@ Planning the week in batches with points, and turning a call into tasks, come wi
 
 | The job | Read |
 | --- | --- |
-| What's late, spec, start or ship a task | [`board.md`](references/board.md) |
+| What's late or stuck, spec, start or ship a task | [`board.md`](references/board.md) |
 | Any `cu` command, auth, tokens, task, comment or chat write | [`cu-commands.md`](references/cu-commands.md) |
 | Custom fields, merging them, views, tags | [`fields.md`](references/fields.md) |
-| Statuses, templates, automations, `cu net capture` | [`frontdoor.md`](references/frontdoor.md) |
+| Statuses on a list, folder or space, `cu statuses` | [`statuses.md`](references/statuses.md) |
+| Templates, automations, `cu net capture` | [`frontdoor.md`](references/frontdoor.md) |
 | Docs, doc renames, call transcripts, bulk REST scripts | [`bulk-and-docs.md`](references/bulk-and-docs.md) |
 | Super Agents, MCP servers | [`super-agents.md`](references/super-agents.md) |
 | Brain² artifacts: build, revise, save the HTML | [`artifacts.md`](references/artifacts.md) |
@@ -39,7 +40,7 @@ come from `.tasks/config.json`, never from memory.
 
 ## The board
 
-`/clickup board <verb>`. `survey` reports what's late and next and writes nothing. `reconcile`
+`/clickup board <verb>`. `survey` reports what's late, stuck and next and writes nothing. `reconcile`
 makes the board match the work, with evidence for each move. `move` changes a status, `spec`
 turns an Open task into a PRD, `start` builds it in a worktree to a reviewed PR, and `ship` gates,
 merges and closes it. Done means merged and verified. A status flip doesn't count.

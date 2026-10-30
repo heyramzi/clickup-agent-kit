@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.15.0 (2026-10-30)
+
+### Features
+
+* **cli:** cu tasks stale and cu tasks stuck find open work nobody is moving
+
+### Bug Fixes
+
+* **cli:** quote TOON cells that hold a comma, so "Ana, Ben" stays one cell
+
 ## 1.14.1 (2026-10-22)
 
 ### Bug Fixes
