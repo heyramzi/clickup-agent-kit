@@ -55,7 +55,9 @@ token to ask anybody for. Course: ClickUp Foundations at
 
 The traps that cost the most:
 
-- `task get --json` drops the description and custom fields. `--markdown` is the full body.
+- `task get --json` drops the description, the custom fields and the list, and it's flat: `creator`
+  and `status` are plain strings, so `.creator.email` fails `Cannot index string` (10 Nov 2026).
+  `--markdown` is the full body.
 - A body with a heading, list or table goes in `markdown_content` (`--markdown` plus
   `--description "$(cat f.md)"`). `description` is plain text and returns 200 either way.
 - Dates are epoch milliseconds. A date string lands on the wrong day without an error.

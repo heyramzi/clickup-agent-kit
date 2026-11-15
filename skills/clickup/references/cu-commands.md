@@ -130,6 +130,9 @@ anything here. This file covers what help can't tell you. Fields, tags and views
   --object-type list --user <id> --permission edit` calls the v3 ACL endpoint with a personal token:
   `kind` is required (`ACL_029 "Invalid group or user ID"` otherwise), levels are 1 read, 3 comment,
   4 edit, 5 create, null removes, PATCH merges. A task assignee needs list access first (`ITEM_087`).
+  `edit` doesn't let the user create tasks (`ACCESS_064 can_create_tasks`): that takes
+  `--permission create`. Without `--team` the call goes to the profile's default workspace and a
+  list in another one answers 404 "Not Found or Authorized" (Glance demo list, 10 Nov 2026).
 - `private: true` on a list drops admins' implicit access, owner included. Read viewers with
   `GET /list/{id}/member`; a list showing nearly everyone isn't private.
 - `cu user update <userId> --admin[=false]` uses the frontdoor (roles 1 owner, 2 admin, 3 member,

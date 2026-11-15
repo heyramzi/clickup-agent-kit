@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.15.2 (2026-11-15)
+
+### Bug Fixes
+
+* **secrets:** every bridge loads the kit only from VIBE_KIT_ROOT or ~/Studio/upsys/kit (TSK-2895)
+
+## 1.15.1 (2026-11-15)
+
+### Bug Fixes
+
+* **security:** cu removes only skill installs it recorded, and stops trusting the folder it runs in (TSK-2895)
+* **security:** keep downloaded attachment names inside the target folder (TSK-2480)
+
 ## 1.15.0 (2026-10-30)
 
 ### Features
