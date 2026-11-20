@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.16.0 (2026-11-20)
+
+### Features
+
+* **cli:** cu chat send --title --subtype, cu task get --subtasks (TSK-3206)
+* **cli:** flags for the fields the library already sent (TSK-3206)
+
+### Performance Improvements
+
+* **typecheck:** TypeScript-only packages check with bun check, not tsc (TSK-2975)
+
 ## 1.15.2 (2026-11-15)
 
 ### Bug Fixes

@@ -84,6 +84,16 @@ anything here. This file covers what help can't tell you. Fields, tags and views
 - A list an automation writes to can't hold a sync. A Task-created rule renamed 17 mirrored
   tasks about 10 seconds after the create returned 200, and every later run read it as drift.
   Give a sync its own list, or create one task and read it back after a few seconds.
+- `cu task update <id> --parent <taskId>` moves a task under another parent in the same list.
+  It's one way: ClickUp can't turn a subtask back into a task through the API.
+- `--add-watcher`, `--remove-watcher`, `--add-assignee` and `--remove-assignee` take user IDs from
+  `cu members` and refuse a name. `--add-group` / `--remove-group` take the group's UUID from
+  `cu groups`, not a number.
+- `--points` needs the Sprint Points ClickApp on that space. Without it, create answers
+  `ITEM_227` and update `ITEM_225`, both "The Sprint Points ClickApp is not enabled". The
+  public API can't switch a ClickApp on.
+- `cu list update --status` answered `SUBCAT_101` to every colour and name tried, even the hex
+  codes its own error lists as valid. Set a list's colour in the app; `--unset-status` clears it.
 - `cu task checklist create <id> --name X --items-json '[...]'` bulk-creates a checklist.
 - Moving a folder: `cu folder move` is the only way (`folder update` renames). `--parent-folder`
   needs Subfolders on; add `--type-map-json` when the destination lacks a task type the folder uses.
@@ -101,6 +111,9 @@ anything here. This file covers what help can't tell you. Fields, tags and views
   Mention: `{"type": "tag", "user": {"id": 123}, "text": "@Name"}`. Build the ops in a small script.
 - Write each paragraph as one long line. A brief hard-wrapped at 90 columns arrived with a break
   every 90 characters. This applies to descriptions and Doc pages too.
+- `cu comments update <commentId> --assignee <userId>` reassigns a comment, and ClickUp wants
+  `--text` on every update, so resend the text unchanged. `cu chat send` and
+  `cu chat message-update` take `--assignee` too.
 - `cu comments delete <commentId>` removes a comment. `cu comments list --json` prints a banner before the JSON; read back with
   `GET /api/v2/task/<id>/comment | jq '.comments[0].comment[]'`.
 - `cu chat channels` filters with `--is-follower`, `--include-closed`, `--with-message-since <date>`
@@ -115,6 +128,9 @@ anything here. This file covers what help can't tell you. Fields, tags and views
 - `cu time` with no dates is the last 30 days, and yours only. Narrow with `--task`, `--list`,
   `--folder` or `--space` (one of them), `--billable true|false`, `--assignee` and dates as
   `YYYY-MM-DD` (UTC, an end date covers the whole day).
+- `cu time create --tags a,b` tags a new entry, and `cu time update <id> --tags a,b` replaces
+  every tag on it. To add or drop one tag and keep the rest, use `cu time tag add` / `tag remove`.
+  `cu time get` prints the tags back.
 - `--custom-ids` works on any command and reads task IDs like `PROJ-12` in your workspace
   (`CU_TEAM_ID`). It never guesses: without the flag an ID is a native one. A parent or
   link target in a body is always a native ID.
