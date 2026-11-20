@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.17.0 (2026-11-20)
+
+### Features
+
+* **cli:** cu workspaces and cu profile add survive a GET /team outage (TSK-3211)
+
 ## 1.16.0 (2026-11-20)
 
 ### Features
