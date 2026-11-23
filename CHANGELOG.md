@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.17.1 (2026-11-23)
+
+### Bug Fixes
+
+* **cu:** a flag given an empty quoted value keeps "" (TSK-3315)
+
 ## 1.17.0 (2026-11-20)
 
 ### Features
