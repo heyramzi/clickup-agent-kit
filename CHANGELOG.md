@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.18.0 (2026-11-24)
+
+### Features
+
+* **cu:** net record, capture and drain run on Orca's HAR recorder, not ego (TSK-3552)
+
 ## 1.17.1 (2026-11-23)
 
 ### Bug Fixes
